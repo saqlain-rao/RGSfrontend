@@ -5,11 +5,13 @@ export interface Project {
   category: string;
   shortDescription: string;
   fullDescription: string;
+  description?: string;
   client: string;
   duration: string;
   technologies: string[];
   location: string;
   mainImage: string;
+  image?: string;
   gallery: string[];
   beforeAfter: {
     beforeImage: string;
@@ -26,6 +28,7 @@ export interface Service {
   slug: string;
   shortDescription: string;
   fullDescription: string;
+  description?: string;
   icon: string;
   image: string;
   features: string[];

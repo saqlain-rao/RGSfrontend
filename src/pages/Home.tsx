@@ -1,7 +1,7 @@
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Building2, HardHat, Ruler, ChevronRight, Globe, ShieldCheck, Clock } from 'lucide-react';
+import { ArrowRight, Building2, HardHat, Ruler, ChevronRight, Globe, ShieldCheck } from 'lucide-react';
 import GeometricBackground from '../components/GeometricBackground';
 
 const staggerContainer = {
@@ -18,9 +18,6 @@ const fadeUp = {
 };
 
 export default function Home() {
-  const { scrollYProgress } = useScroll();
-  const y = useTransform(scrollYProgress, [0, 1], [0, 300]);
-  
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => { setIsLoaded(true); }, []);
 

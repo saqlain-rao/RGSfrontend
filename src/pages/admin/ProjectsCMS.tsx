@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Plus, Edit, Trash2, X, Image as ImageIcon, CheckCircle, AlertCircle } from 'lucide-react';
+import { Plus, Edit, Trash2, X, Image as ImageIcon, CheckCircle } from 'lucide-react';
 
 const API_URL = 'http://localhost:5000/api';
 
