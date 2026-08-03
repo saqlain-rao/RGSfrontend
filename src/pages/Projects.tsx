@@ -57,7 +57,7 @@ export default function Projects() {
                   className="group relative h-[450px] overflow-hidden bg-zinc-900 cursor-pointer"
                 >
                   <img 
-                    src={project.image || 'https://images.unsplash.com/photo-1541888081622-c9a92ab35c91'} 
+                    src={project.mainImage || 'https://images.unsplash.com/photo-1541888081622-c9a92ab35c91'} 
                     className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 group-hover:scale-105" 
                     alt={project.title} 
                   />
@@ -65,7 +65,7 @@ export default function Projects() {
                   <div className="absolute bottom-8 left-8 right-8">
                     <div className="text-primary text-xs font-bold uppercase tracking-widest mb-2">{project.category}</div>
                     <h3 className="text-2xl font-black uppercase leading-tight mb-2">{project.title}</h3>
-                    <p className="text-gray-400 text-sm line-clamp-2">{project.description}</p>
+                    <p className="text-gray-400 text-sm line-clamp-2">{project.shortDescription}</p>
                   </div>
                 </motion.div>
               ))}
