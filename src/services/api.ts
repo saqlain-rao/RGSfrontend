@@ -21,11 +21,15 @@ api.interceptors.request.use((config) => {
   return Promise.reject(error);
 });
 
-// Settings API
 export const getSettings = async (): Promise<Settings> => {
   const { data } = await api.get('/settings');
   // settings array returns 0 index
   return data.data[0];
+};
+
+export const createSettings = async (settingsData: Partial<Settings>): Promise<Settings> => {
+  const { data } = await api.post('/settings', settingsData);
+  return data.data;
 };
 
 export const updateSettings = async (id: string, settingsData: Partial<Settings>): Promise<Settings> => {

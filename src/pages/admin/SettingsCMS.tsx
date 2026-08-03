@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Settings as SettingsType } from '../../types';
-import { getSettings, updateSettings } from '../../services/api';
-import { Save, Loader2, AlertCircle } from 'lucide-react';
+import { getSettings, updateSettings, createSettings } from '../../services/api';
+import { Save, Loader2, AlertCircle, Plus } from 'lucide-react';
 
 export default function SettingsCMS() {
   const [settings, setSettings] = useState<SettingsType | null>(null);
@@ -20,6 +20,31 @@ export default function SettingsCMS() {
       setSettings(data);
     } catch (err: any) {
       setError('Failed to fetch settings');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleInitialize = async () => {
+    setLoading(true);
+    try {
+      const defaultSettings = {
+        companyName: 'RGS Constructor',
+        contactEmail: 'contact@rgsconstructor.com',
+        contactPhone: '+1 234 567 890',
+        address: '123 Enterprise Avenue, New York, NY 10001',
+        socialLinks: {
+          facebook: 'https://facebook.com',
+          linkedin: 'https://linkedin.com',
+          twitter: 'https://twitter.com',
+          instagram: 'https://instagram.com'
+        }
+      };
+      const data = await createSettings(defaultSettings);
+      setSettings(data);
+      setSuccess('Default settings initialized successfully!');
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Failed to initialize settings');
     } finally {
       setLoading(false);
     }
@@ -51,7 +76,30 @@ export default function SettingsCMS() {
   }
 
   if (!settings) {
-    return <div className="text-red-500">Settings not found in database.</div>;
+    return (
+      <div className="max-w-4xl">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold text-white">Global Settings</h1>
+        </div>
+        {error && (
+          <div className="bg-red-500/10 border border-red-500/50 text-red-500 p-4 mb-6 flex items-center gap-3">
+            <AlertCircle className="w-5 h-5" />
+            {error}
+          </div>
+        )}
+        <div className="bg-zinc-900 border border-zinc-800 p-8 text-center flex flex-col items-center justify-center min-h-[300px]">
+          <h2 className="text-xl font-bold text-white mb-2">No Settings Found</h2>
+          <p className="text-gray-400 mb-8 max-w-md">Your database does not have any settings configured yet. Initialize the default settings to get started.</p>
+          <button 
+            onClick={handleInitialize}
+            className="flex items-center gap-2 bg-primary text-black font-bold px-6 py-3 hover:bg-white transition-colors"
+          >
+            <Plus className="w-5 h-5" />
+            Initialize Default Settings
+          </button>
+        </div>
+      </div>
+    );
   }
 
   return (
