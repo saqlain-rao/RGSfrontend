@@ -47,8 +47,9 @@ export default function ProjectsCMS() {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setFormData({ ...formData, mainImage: data.data.url });
-    } catch (error) {
-      alert('Upload failed');
+    } catch (error: any) {
+      console.error("Upload error:", error.response || error);
+      alert('Upload failed: ' + (error.response?.data?.error || error.message));
     } finally {
       setUploading(false);
     }
