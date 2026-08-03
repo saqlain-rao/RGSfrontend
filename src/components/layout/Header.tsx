@@ -116,7 +116,7 @@ export default function Header() {
                 >
                   <Link 
                     to={link.path} 
-                    className="text-4xl font-black uppercase tracking-tight text-white hover:text-primary transition-colors block"
+                    className="text-2xl font-black uppercase tracking-tight text-white hover:text-primary transition-colors block"
                   >
                     {link.name}
                   </Link>
