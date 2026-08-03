@@ -6,6 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export default function Dashboard() {
   const [stats, setStats] = useState({
+    services: 0,
     projects: 0,
     messages: 0,
     blogs: 0
@@ -15,13 +16,15 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [projectsRes, messagesRes, blogsRes] = await Promise.all([
+        const [servicesRes, projectsRes, messagesRes, blogsRes] = await Promise.all([
+          axios.get(`${API_URL}/services`),
           axios.get(`${API_URL}/projects`),
           axios.get(`${API_URL}/contactmessages`),
           axios.get(`${API_URL}/blogs`)
         ]);
 
         setStats({
+          services: servicesRes.data.data.length || 0,
           projects: projectsRes.data.data.length || 0,
           messages: messagesRes.data.data.length || 0,
           blogs: blogsRes.data.data.length || 0
@@ -36,9 +39,6 @@ export default function Dashboard() {
     fetchStats();
   }, []);
 
-  // Mock a dynamically increasing visitor count based on current date
-  const visitorsCount = 12450 + (new Date().getDate() * 14) + new Date().getHours();
-
   return (
     <div className="space-y-8">
       <div>
@@ -52,8 +52,10 @@ export default function Dashboard() {
             <Users size={24} />
           </div>
           <div>
-            <p className="text-sm text-muted-foreground font-medium">Total Visitors</p>
-            <h3 className="text-2xl font-bold text-foreground">{visitorsCount.toLocaleString()}</h3>
+            <p className="text-sm text-muted-foreground font-medium">Total Services</p>
+            <h3 className="text-2xl font-bold text-foreground">
+              {loading ? '...' : stats.services}
+            </h3>
           </div>
         </div>
         <div className="bg-background p-6 rounded-xl border border-border shadow-sm flex items-center gap-4">
