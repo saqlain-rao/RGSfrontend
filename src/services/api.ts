@@ -42,12 +42,12 @@ export const getTestimonials = async (): Promise<Testimonial[]> => {
 
 // Team API
 export const getTeam = async (): Promise<TeamMember[]> => {
-  const { data } = await api.get('/team');
+  const { data } = await api.get('/teams');
   return data.data;
 };
 
 // Contact API
 export const submitContact = async (formData: any) => {
-  const { data } = await api.post('/contact', formData);
+  const { data } = await api.post('/contactmessages', formData);
   return data;
 };
