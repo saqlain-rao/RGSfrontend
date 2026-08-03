@@ -48,7 +48,7 @@ export default function Header() {
                 className="w-full h-full object-contain transform group-hover:scale-110 transition-transform duration-500" 
               />
             </div>
-            <div className="hidden sm:flex flex-col">
+            <div className="flex flex-col">
               <span className="text-white font-black text-xl tracking-widest uppercase leading-none">RGS</span>
               <span className="text-primary text-[10px] font-bold tracking-[0.3em] uppercase mt-1">Constructor</span>
             </div>
