@@ -6,7 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export default function Dashboard() {
   const [stats, setStats] = useState({
-    services: 0,
+    visitors: 0,
     projects: 0,
     messages: 0,
     blogs: 0
@@ -16,18 +16,18 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [servicesRes, projectsRes, messagesRes, blogsRes] = await Promise.all([
-          axios.get(`${API_URL}/services`),
+        const [visitorsRes, projectsRes, messagesRes, blogsRes] = await Promise.all([
+          axios.get(`${API_URL}/visitors`).catch(() => ({ data: { data: 0 } })),
           axios.get(`${API_URL}/projects`),
           axios.get(`${API_URL}/contactmessages`),
           axios.get(`${API_URL}/blogs`)
         ]);
 
         setStats({
-          services: servicesRes.data.data.length || 0,
-          projects: projectsRes.data.data.length || 0,
-          messages: messagesRes.data.data.length || 0,
-          blogs: blogsRes.data.data.length || 0
+          visitors: visitorsRes.data?.data || 0,
+          projects: projectsRes.data?.data?.length || 0,
+          messages: messagesRes.data?.data?.length || 0,
+          blogs: blogsRes.data?.data?.length || 0
         });
       } catch (error) {
         console.error('Failed to fetch dashboard stats', error);
@@ -52,9 +52,9 @@ export default function Dashboard() {
             <Users size={24} />
           </div>
           <div>
-            <p className="text-sm text-muted-foreground font-medium">Total Services</p>
+            <p className="text-sm text-muted-foreground font-medium">Total Visitors</p>
             <h3 className="text-2xl font-bold text-foreground">
-              {loading ? '...' : stats.services}
+              {loading ? '...' : stats.visitors.toLocaleString()}
             </h3>
           </div>
         </div>

@@ -44,7 +44,20 @@ import UsersCMS from './pages/admin/UsersCMS';
 import RolesCMS from './pages/admin/RolesCMS';
 import AnalyticsCMS from './pages/admin/AnalyticsCMS';
 
+import axios from 'axios';
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 function App() {
+  // Track visitors
+  useEffect(() => {
+    // Only track if not in admin panel and haven't tracked in this session
+    if (!window.location.pathname.startsWith('/admin') && !sessionStorage.getItem('visitor_tracked')) {
+      axios.post(`${API_URL}/visitors/track`).catch(e => console.error(e));
+      sessionStorage.setItem('visitor_tracked', 'true');
+    }
+  }, []);
+
   // Setup Lenis Smooth Scroll globally
   useEffect(() => {
     const lenis = new Lenis({
