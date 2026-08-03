@@ -1,18 +1,212 @@
-import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Plus, Edit, Trash2, X, Image as ImageIcon } from 'lucide-react';
+
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export default function ServicesCMS() {
+  const [services, setServices] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  
+  const [formData, setFormData] = useState({
+    title: '', description: '', icon: 'Settings', image: '', features: ''
+  });
+  
+  const [uploading, setUploading] = useState(false);
+
+  const fetchServices = async () => {
+    try {
+      const { data } = await axios.get(`${API_URL}/services`);
+      setServices(data.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => { fetchServices(); }, []);
+
+  const handleInputChange = (e: any) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleFileUpload = async (e: any) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const form = new FormData();
+    form.append('image', file);
+
+    setUploading(true);
+    try {
+      const { data } = await axios.post(`${API_URL}/upload`, form, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      setFormData({ ...formData, image: data.data.url });
+    } catch (error) {
+      alert('Upload failed');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    try {
+      const payload = {
+        ...formData,
+        features: formData.features.split(',').map(f => f.trim()).filter(f => f !== '')
+      };
+
+      if (editingId) {
+        await axios.put(`${API_URL}/services/${editingId}`, payload);
+      } else {
+        await axios.post(`${API_URL}/services`, payload);
+      }
+      setModalOpen(false);
+      fetchServices();
+    } catch (error) {
+      alert('Failed to save service');
+    }
+  };
+
+  const handleEdit = (service: any) => {
+    setEditingId(service._id);
+    setFormData({
+      title: service.title || '',
+      description: service.description || '',
+      icon: service.icon || 'Settings',
+      image: service.image || '',
+      features: (service.features || []).join(', ')
+    });
+    setModalOpen(true);
+  };
+
+  const handleDelete = async (id: string) => {
+    if (window.confirm('Are you sure you want to delete this service?')) {
+      try {
+        await axios.delete(`${API_URL}/services/${id}`);
+        fetchServices();
+      } catch (error) {
+        alert('Failed to delete');
+      }
+    }
+  };
+
+  const openNewModal = () => {
+    setEditingId(null);
+    setFormData({ title: '', description: '', icon: 'Settings', image: '', features: '' });
+    setModalOpen(true);
+  };
+
   return (
     <div className="p-6">
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="max-w-7xl mx-auto"
-      >
-        <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-6">Services Management</h1>
-        <div className="bg-white dark:bg-zinc-900 rounded-xl p-6 shadow-sm border border-zinc-200 dark:border-zinc-800">
-          <p className="text-muted-foreground">Welcome to the ServicesCMS page. Content is under construction.</p>
+      <div className="flex justify-between items-center mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-white">Manage Services</h1>
+          <p className="text-gray-500 mt-1">Add, edit, or remove services offered by the company.</p>
         </div>
-      </motion.div>
+        <button onClick={openNewModal} className="bg-primary text-white px-6 py-3 rounded-lg flex items-center gap-2 hover:bg-primary/90 font-medium">
+          <Plus size={20} /> Add New Service
+        </button>
+      </div>
+
+      <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+            <thead className="bg-gray-50 dark:bg-zinc-800/50 text-gray-700 dark:text-gray-300 uppercase font-semibold">
+              <tr>
+                <th className="px-6 py-4">Image</th>
+                <th className="px-6 py-4">Title</th>
+                <th className="px-6 py-4">Icon Name</th>
+                <th className="px-6 py-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {loading ? (
+                <tr><td colSpan={4} className="text-center py-10">Loading...</td></tr>
+              ) : services.length === 0 ? (
+                <tr><td colSpan={4} className="text-center py-10">No services found.</td></tr>
+              ) : (
+                services.map((service) => (
+                  <tr key={service._id} className="border-b border-zinc-200 dark:border-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-800/30">
+                    <td className="px-6 py-4">
+                      {service.image ? (
+                        <img src={service.image} alt={service.title} className="w-16 h-12 object-cover rounded-md border border-zinc-200 dark:border-zinc-700" />
+                      ) : (
+                        <div className="w-16 h-12 bg-zinc-800 rounded-md flex items-center justify-center"><ImageIcon className="w-5 h-5 text-zinc-500" /></div>
+                      )}
+                    </td>
+                    <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{service.title}</td>
+                    <td className="px-6 py-4"><span className="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 rounded-full text-xs font-medium">{service.icon}</span></td>
+                    <td className="px-6 py-4 text-right">
+                      <button onClick={() => handleEdit(service)} className="text-blue-500 hover:text-blue-600 p-2"><Edit size={18} /></button>
+                      <button onClick={() => handleDelete(service._id)} className="text-red-500 hover:text-red-600 p-2"><Trash2 size={18} /></button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Modal */}
+      {modalOpen && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-zinc-200 dark:border-zinc-800 shadow-2xl">
+            <div className="flex justify-between items-center p-6 border-b border-zinc-200 dark:border-zinc-800 sticky top-0 bg-white dark:bg-zinc-900 z-10">
+              <h2 className="text-2xl font-bold dark:text-white">{editingId ? 'Edit Service' : 'New Service'}</h2>
+              <button onClick={() => setModalOpen(false)} className="text-gray-500 hover:text-gray-800 dark:hover:text-white"><X size={24} /></button>
+            </div>
+            
+            <form onSubmit={handleSubmit} className="p-6 space-y-6">
+              <div>
+                <label className="block text-sm font-medium mb-2 dark:text-gray-300">Service Title</label>
+                <input required type="text" name="title" value={formData.title} onChange={handleInputChange} className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none" />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium mb-2 dark:text-gray-300">Icon Name (Lucide React)</label>
+                <input required type="text" name="icon" value={formData.icon} onChange={handleInputChange} placeholder="e.g. Settings, Home, HardHat" className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none" />
+                <p className="text-xs text-gray-500 mt-1">Check lucide.dev for icon names.</p>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2 dark:text-gray-300">Service Description</label>
+                <textarea rows={4} required name="description" value={formData.description} onChange={handleInputChange} className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none"></textarea>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2 dark:text-gray-300">Features (Comma separated)</label>
+                <input type="text" name="features" value={formData.features} onChange={handleInputChange} placeholder="e.g. 24/7 Support, Quality Materials, Expert Team" className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none" />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2 dark:text-gray-300">Service Image (Upload)</label>
+                <div className="flex items-center gap-4">
+                  {formData.image && <img src={formData.image} alt="Preview" className="w-24 h-24 object-cover rounded-lg border border-zinc-700" />}
+                  <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-zinc-300 dark:border-zinc-700 border-dashed rounded-lg cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      {uploading ? <span className="text-sm dark:text-gray-400">Uploading...</span> : <span className="text-sm dark:text-gray-400">Click to upload custom image</span>}
+                    </div>
+                    <input type="file" className="hidden" accept="image/*" onChange={handleFileUpload} disabled={uploading} />
+                  </label>
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-4 pt-6 border-t border-zinc-200 dark:border-zinc-800">
+                <button type="button" onClick={() => setModalOpen(false)} className="px-6 py-3 font-medium rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-zinc-800">Cancel</button>
+                <button type="submit" className="px-6 py-3 font-medium rounded-lg bg-primary text-white hover:bg-primary/90">Save Service</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
