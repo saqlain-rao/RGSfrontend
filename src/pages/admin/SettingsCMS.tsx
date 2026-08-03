@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Settings as SettingsType } from '../../../types';
-import { getSettings, updateSettings } from '../../../services/api';
+import { Settings as SettingsType } from '../../types';
+import { getSettings, updateSettings } from '../../services/api';
 import { Save, Loader2, AlertCircle } from 'lucide-react';
 
 export default function SettingsCMS() {

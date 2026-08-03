@@ -1,9 +1,8 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Clock, User, Tag, Share2 } from 'lucide-react';
+import { ArrowLeft, Clock, User, Share2 } from 'lucide-react';
 import { getBlogBySlug } from '../services/api';
-import GeometricBackground from '../components/GeometricBackground';
 import { Blog } from '../types';
 
 export default function BlogDetail() {

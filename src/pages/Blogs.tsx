@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Clock, User, Tag } from 'lucide-react';
+import { ArrowRight, Clock, User } from 'lucide-react';
 import { getBlogs } from '../services/api';
 import GeometricBackground from '../components/GeometricBackground';
 import { Blog } from '../types';
