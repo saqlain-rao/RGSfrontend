@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import Lenis from '@studio-freight/lenis';
 
@@ -18,7 +18,8 @@ import Team from './pages/Team';
 import Careers from './pages/Careers';
 import Testimonials from './pages/Testimonials';
 import Gallery from './pages/Gallery';
-import Blog from './pages/Blog';
+import Blogs from './pages/Blogs';
+import BlogDetail from './pages/BlogDetail';
 import FAQ from './pages/FAQ';
 import Contact from './pages/Contact';
 import Privacy from './pages/Privacy';
@@ -43,10 +44,30 @@ import SettingsCMS from './pages/admin/SettingsCMS';
 import UsersCMS from './pages/admin/UsersCMS';
 import RolesCMS from './pages/admin/RolesCMS';
 import AnalyticsCMS from './pages/admin/AnalyticsCMS';
+import Login from './pages/admin/Login';
+
+const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    return <Navigate to="/admin/login" replace />;
+  }
+  return children;
+};
 
 import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
+// Global Axios Interceptor for Auth
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token && config.url?.startsWith(API_URL)) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
 
 function App() {
   // Track visitors
@@ -96,7 +117,8 @@ function App() {
           <Route path="careers" element={<Careers />} />
           <Route path="testimonials" element={<Testimonials />} />
           <Route path="gallery" element={<Gallery />} />
-          <Route path="blog" element={<Blog />} />
+          <Route path="blog" element={<Blogs />} />
+          <Route path="blog/:slug" element={<BlogDetail />} />
           <Route path="faq" element={<FAQ />} />
           <Route path="contact" element={<Contact />} />
           <Route path="privacy" element={<Privacy />} />
@@ -105,7 +127,12 @@ function App() {
         </Route>
         
         {/* Admin Routes */}
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route path="/admin/login" element={<Login />} />
+        <Route path="/admin" element={
+          <ProtectedRoute>
+            <AdminLayout />
+          </ProtectedRoute>
+        }>
           <Route index element={<Dashboard />} />
           <Route path="projects" element={<ProjectsCMS />} />
           <Route path="services" element={<ServicesCMS />} />

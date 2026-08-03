@@ -11,9 +11,25 @@ export const api = axios.create({
   },
 });
 
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+}, (error) => {
+  return Promise.reject(error);
+});
+
 // Settings API
 export const getSettings = async (): Promise<Settings> => {
   const { data } = await api.get('/settings');
+  // settings array returns 0 index
+  return data.data[0];
+};
+
+export const updateSettings = async (id: string, settingsData: Partial<Settings>): Promise<Settings> => {
+  const { data } = await api.put(`/settings/${id}`, settingsData);
   return data.data;
 };
 
@@ -43,6 +59,17 @@ export const getTestimonials = async (): Promise<Testimonial[]> => {
 // Team API
 export const getTeam = async (): Promise<TeamMember[]> => {
   const { data } = await api.get('/teams');
+  return data.data;
+};
+
+// Blogs API
+export const getBlogs = async (): Promise<any[]> => {
+  const { data } = await api.get('/blogs');
+  return data.data;
+};
+
+export const getBlogBySlug = async (slug: string): Promise<any> => {
+  const { data } = await api.get(`/blogs/slug/${slug}`);
   return data.data;
 };
 

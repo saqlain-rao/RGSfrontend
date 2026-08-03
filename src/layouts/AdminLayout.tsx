@@ -7,7 +7,7 @@ export default function AdminLayout() {
   // Assume auth check here in real implementation
   
   const handleLogout = () => {
-    // auth logout logic
+    localStorage.removeItem('token');
     navigate('/admin/login');
   };
 
@@ -48,6 +48,10 @@ export default function AdminLayout() {
           <Link to="/admin/messages" className="flex items-center gap-3 px-6 py-3 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors">
             <MessageSquare size={20} />
             Messages
+          </Link>
+          <Link to="/admin/settings" className="flex items-center gap-3 px-6 py-3 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors">
+            <Settings size={20} />
+            Settings
           </Link>
         </nav>
         <div className="p-4 border-t border-border">

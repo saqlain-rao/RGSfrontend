@@ -101,3 +101,21 @@ export interface TeamMember {
   order: number;
   isActive: boolean;
 }
+
+export interface Blog {
+  _id: string;
+  title: string;
+  slug: string;
+  content: string;
+  excerpt: string;
+  author: string;
+  image: string;
+  tags: string[];
+  isPublished: boolean;
+  seo: {
+    metaTitle: string;
+    metaDescription: string;
+    metaKeywords: string;
+  };
+  createdAt: string;
+}

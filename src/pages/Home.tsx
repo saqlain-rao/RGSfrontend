@@ -1,8 +1,11 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Building2, HardHat, Ruler, ChevronRight, Globe, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Building2, HardHat, Ruler, ChevronRight, Globe, ShieldCheck, Star, Quote } from 'lucide-react';
 import GeometricBackground from '../components/GeometricBackground';
+import { getTestimonials } from '../services/api';
+import { Testimonial } from '../types';
+import SEO from '../components/SEO';
 
 const staggerContainer = {
   hidden: { opacity: 0 },
@@ -19,10 +22,19 @@ const fadeUp = {
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
-  useEffect(() => { setIsLoaded(true); }, []);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  
+  useEffect(() => { 
+    setIsLoaded(true);
+    getTestimonials().then(data => setTestimonials(data.filter(t => t.isActive))).catch(console.error);
+  }, []);
 
   return (
     <div className="bg-black min-h-screen text-white overflow-hidden selection:bg-primary selection:text-white">
+      <SEO 
+        title="Engineering Excellence" 
+        description="RGS Constructor delivers uncompromising quality, architectural brilliance, and enterprise-grade infrastructure." 
+      />
       
       {/* 1. ULTRA PREMIUM HERO SECTION */}
       <section className="relative h-screen w-full flex items-center justify-center pt-20">
@@ -267,6 +279,58 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* 4.5 TESTIMONIALS SECTION */}
+      {testimonials.length > 0 && (
+        <section className="py-32 bg-zinc-950 border-t border-white/5 relative overflow-hidden">
+          <div className="absolute -left-40 top-20 w-96 h-96 bg-primary/10 blur-[100px] rounded-full pointer-events-none" />
+          
+          <div className="container mx-auto px-6 relative z-10">
+            <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+              <div className="max-w-2xl">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="h-[1px] w-8 bg-primary"></div>
+                  <span className="text-primary tracking-widest text-xs font-semibold uppercase">Client Feedback</span>
+                </div>
+                <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight">Trusted By <br/>Industry Leaders</h2>
+              </div>
+            </div>
+
+            <div className="flex overflow-x-auto gap-6 pb-12 snap-x hide-scrollbar">
+              {testimonials.map((t, i) => (
+                <motion.div 
+                  key={t._id}
+                  initial={{ opacity: 0, x: 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="min-w-[350px] md:min-w-[450px] bg-black border border-white/5 p-10 snap-start hover:border-primary/30 transition-colors"
+                >
+                  <Quote className="w-10 h-10 text-primary/40 mb-6" />
+                  <p className="text-gray-300 leading-relaxed mb-8 text-lg">"{t.content}"</p>
+                  
+                  <div className="flex items-center justify-between mt-auto">
+                    <div className="flex items-center gap-4">
+                      {t.image ? (
+                        <img src={t.image} alt={t.clientName} className="w-12 h-12 rounded-full object-cover grayscale" />
+                      ) : (
+                        <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-500 font-bold uppercase">{t.clientName.charAt(0)}</div>
+                      )}
+                      <div>
+                        <h4 className="text-white font-bold uppercase text-sm">{t.clientName}</h4>
+                        <span className="text-primary text-xs uppercase tracking-widest">{t.role}{t.company ? ` @ ${t.company}` : ''}</span>
+                      </div>
+                    </div>
+                    <div className="flex text-primary">
+                      {[...Array(t.rating)].map((_, idx) => <Star key={idx} className="w-4 h-4 fill-current" />)}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* 5. CTA SECTION */}
       <section className="relative py-32 bg-primary overflow-hidden">

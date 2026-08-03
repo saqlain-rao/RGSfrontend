@@ -1,7 +1,15 @@
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Linkedin, Instagram, MapPin, Phone, Mail, ArrowRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { getSettings } from '../../services/api';
+import { Settings as SettingsType } from '../../types';
 
 export default function Footer() {
+  const [settings, setSettings] = useState<SettingsType | null>(null);
+
+  useEffect(() => {
+    getSettings().then(data => setSettings(data)).catch(console.error);
+  }, []);
   return (
     <footer className="bg-zinc-950 border-t border-white/10 pt-20 pb-10">
       <div className="container mx-auto px-6">
@@ -19,21 +27,29 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-gray-500 text-sm leading-relaxed mb-6">
-              Leading the industry in enterprise-level construction, architectural brilliance, and unyielding quality for over 25 years.
+              {settings?.heroContent?.subheading || 'Leading the industry in enterprise-level construction, architectural brilliance, and unyielding quality for over 25 years.'}
             </p>
             <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-primary hover:bg-primary transition-all">
-                <Facebook className="w-4 h-4" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-primary hover:bg-primary transition-all">
-                <Twitter className="w-4 h-4" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-primary hover:bg-primary transition-all">
-                <Linkedin className="w-4 h-4" />
-              </a>
-              <a href="#" className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-primary hover:bg-primary transition-all">
-                <Instagram className="w-4 h-4" />
-              </a>
+              {settings?.socialLinks?.facebook && (
+                <a href={settings.socialLinks.facebook} className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-primary hover:bg-primary transition-all">
+                  <Facebook className="w-4 h-4" />
+                </a>
+              )}
+              {settings?.socialLinks?.twitter && (
+                <a href={settings.socialLinks.twitter} className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-primary hover:bg-primary transition-all">
+                  <Twitter className="w-4 h-4" />
+                </a>
+              )}
+              {settings?.socialLinks?.linkedin && (
+                <a href={settings.socialLinks.linkedin} className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-primary hover:bg-primary transition-all">
+                  <Linkedin className="w-4 h-4" />
+                </a>
+              )}
+              {settings?.socialLinks?.instagram && (
+                <a href={settings.socialLinks.instagram} className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-primary hover:bg-primary transition-all">
+                  <Instagram className="w-4 h-4" />
+                </a>
+              )}
             </div>
           </div>
 
@@ -73,15 +89,15 @@ export default function Footer() {
             <ul className="space-y-6">
               <li className="flex gap-4">
                 <MapPin className="w-5 h-5 text-primary shrink-0" />
-                <span className="text-gray-500 text-sm">123 Corporate Blvd, Elite Business Park, Metro City, 10001</span>
+                <span className="text-gray-500 text-sm whitespace-pre-line">{settings?.address || '123 Corporate Blvd, Elite Business Park, Metro City, 10001'}</span>
               </li>
               <li className="flex gap-4">
                 <Phone className="w-5 h-5 text-primary shrink-0" />
-                <span className="text-gray-500 text-sm">+1 (800) 123-4567<br/>+1 (800) 123-4568</span>
+                <span className="text-gray-500 text-sm whitespace-pre-line">{settings?.contactPhone || '+1 (800) 123-4567\n+1 (800) 123-4568'}</span>
               </li>
               <li className="flex gap-4">
                 <Mail className="w-5 h-5 text-primary shrink-0" />
-                <span className="text-gray-500 text-sm">contact@rgsconstructor.com</span>
+                <span className="text-gray-500 text-sm">{settings?.contactEmail || 'contact@rgsconstructor.com'}</span>
               </li>
             </ul>
           </div>
@@ -91,7 +107,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-gray-600 text-xs uppercase tracking-wider">
-            &copy; {new Date().getFullYear()} RGS Constructor. All Rights Reserved.
+            &copy; {new Date().getFullYear()} {settings?.companyName || 'RGS Constructor'}. All Rights Reserved.
           </p>
           <div className="flex gap-6">
             <Link to="/privacy" className="text-gray-600 hover:text-white text-xs uppercase tracking-wider transition-colors">Privacy Policy</Link>
