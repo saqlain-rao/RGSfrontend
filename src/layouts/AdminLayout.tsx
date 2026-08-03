@@ -20,7 +20,7 @@ export default function AdminLayout() {
             RGS Admin
           </Link>
         </div>
-        <nav className="flex-1 overflow-y-auto py-4 space-y-1">
+        <nav className="flex-1 overflow-y-auto py-4 space-y-1" data-lenis-prevent="true">
           <Link to="/admin" className="flex items-center gap-3 px-6 py-3 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors">
             <LayoutDashboard size={20} />
             Dashboard
@@ -71,7 +71,7 @@ export default function AdminLayout() {
             <span className="text-sm font-medium">Admin User</span>
           </div>
         </header>
-        <div className="flex-1 overflow-y-auto p-8 bg-card">
+        <div className="flex-1 overflow-y-auto p-8 bg-card" data-lenis-prevent="true">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
