@@ -11,7 +11,7 @@ export default function ProjectsCMS() {
   const [editingId, setEditingId] = useState<string | null>(null);
   
   const [formData, setFormData] = useState({
-    title: '', slug: '', category: 'Commercial', description: '', client: '', location: '', duration: '', image: '', featured: false
+    title: '', slug: '', category: 'Commercial', shortDescription: '', fullDescription: '', client: '', location: '', duration: '', mainImage: '', status: 'Completed', featured: false
   });
   
   const [uploading, setUploading] = useState(false);
@@ -46,7 +46,7 @@ export default function ProjectsCMS() {
       const { data } = await axios.post(`${API_URL}/upload`, form, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
-      setFormData({ ...formData, image: data.data.url });
+      setFormData({ ...formData, mainImage: data.data.url });
     } catch (error) {
       alert('Upload failed');
     } finally {
@@ -75,11 +75,13 @@ export default function ProjectsCMS() {
       title: project.title || '',
       slug: project.slug || '',
       category: project.category || 'Commercial',
-      description: project.description || '',
+      shortDescription: project.shortDescription || '',
+      fullDescription: project.fullDescription || '',
       client: project.client || '',
       location: project.location || '',
       duration: project.duration || '',
-      image: project.image || '',
+      mainImage: project.mainImage || '',
+      status: project.status || 'Completed',
       featured: project.featured || false
     });
     setModalOpen(true);
@@ -98,7 +100,7 @@ export default function ProjectsCMS() {
 
   const openNewModal = () => {
     setEditingId(null);
-    setFormData({ title: '', slug: '', category: 'Commercial', description: '', client: '', location: '', duration: '', image: '', featured: false });
+    setFormData({ title: '', slug: '', category: 'Commercial', shortDescription: '', fullDescription: '', client: '', location: '', duration: '', mainImage: '', status: 'Completed', featured: false });
     setModalOpen(true);
   };
 
@@ -135,8 +137,8 @@ export default function ProjectsCMS() {
                 projects.map((project) => (
                   <tr key={project._id} className="border-b border-zinc-200 dark:border-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-800/30">
                     <td className="px-6 py-4">
-                      {project.image ? (
-                        <img src={project.image} alt={project.title} className="w-16 h-12 object-cover rounded-md border border-zinc-200 dark:border-zinc-700" />
+                      {project.mainImage ? (
+                        <img src={project.mainImage} alt={project.title} className="w-16 h-12 object-cover rounded-md border border-zinc-200 dark:border-zinc-700" />
                       ) : (
                         <div className="w-16 h-12 bg-zinc-800 rounded-md flex items-center justify-center"><ImageIcon className="w-5 h-5 text-zinc-500" /></div>
                       )}
@@ -159,7 +161,7 @@ export default function ProjectsCMS() {
       {/* Modal */}
       {modalOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto border border-zinc-200 dark:border-zinc-800 shadow-2xl">
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto border border-zinc-200 dark:border-zinc-800 shadow-2xl">
             <div className="flex justify-between items-center p-6 border-b border-zinc-200 dark:border-zinc-800 sticky top-0 bg-white dark:bg-zinc-900 z-10">
               <h2 className="text-2xl font-bold dark:text-white">{editingId ? 'Edit Project' : 'New Project'}</h2>
               <button onClick={() => setModalOpen(false)} className="text-gray-500 hover:text-gray-800 dark:hover:text-white"><X size={24} /></button>
@@ -185,28 +187,40 @@ export default function ProjectsCMS() {
                   </select>
                 </div>
                 <div>
+                  <label className="block text-sm font-medium mb-2 dark:text-gray-300">Status</label>
+                  <select name="status" value={formData.status} onChange={handleInputChange} className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none">
+                    <option value="Completed">Completed</option>
+                    <option value="Ongoing">Ongoing</option>
+                  </select>
+                </div>
+                <div>
                   <label className="block text-sm font-medium mb-2 dark:text-gray-300">Client / Investor</label>
-                  <input type="text" name="client" value={formData.client} onChange={handleInputChange} className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none" />
+                  <input required type="text" name="client" value={formData.client} onChange={handleInputChange} className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2 dark:text-gray-300">Location</label>
-                  <input type="text" name="location" value={formData.location} onChange={handleInputChange} className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none" />
+                  <input required type="text" name="location" value={formData.location} onChange={handleInputChange} className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-2 dark:text-gray-300">Project Duration</label>
-                  <input type="text" name="duration" value={formData.duration} onChange={handleInputChange} placeholder="e.g. 24 Months" className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none" />
+                  <input required type="text" name="duration" value={formData.duration} onChange={handleInputChange} placeholder="e.g. 24 Months" className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none" />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 dark:text-gray-300">Project Description</label>
-                <textarea rows={4} name="description" value={formData.description} onChange={handleInputChange} className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none"></textarea>
+                <label className="block text-sm font-medium mb-2 dark:text-gray-300">Short Description</label>
+                <textarea rows={2} required name="shortDescription" value={formData.shortDescription} onChange={handleInputChange} className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none"></textarea>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2 dark:text-gray-300">Full Description</label>
+                <textarea rows={4} required name="fullDescription" value={formData.fullDescription} onChange={handleInputChange} className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none"></textarea>
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-2 dark:text-gray-300">Feature Image (Upload)</label>
                 <div className="flex items-center gap-4">
-                  {formData.image && <img src={formData.image} alt="Preview" className="w-24 h-24 object-cover rounded-lg border border-zinc-700" />}
+                  {formData.mainImage && <img src={formData.mainImage} alt="Preview" className="w-24 h-24 object-cover rounded-lg border border-zinc-700" />}
                   <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-zinc-300 dark:border-zinc-700 border-dashed rounded-lg cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
                     <div className="flex flex-col items-center justify-center pt-5 pb-6">
                       {uploading ? <span className="text-sm dark:text-gray-400">Uploading...</span> : <span className="text-sm dark:text-gray-400">Click to upload custom image</span>}
