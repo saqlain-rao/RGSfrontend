@@ -7,6 +7,7 @@ export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     subject: '',
     message: ''
   });
@@ -18,7 +19,7 @@ export default function Contact() {
     try {
       await submitContact(formData);
       setStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
       setTimeout(() => setStatus('idle'), 5000);
     } catch (error) {
       console.error(error);
@@ -52,9 +53,15 @@ export default function Contact() {
             ) : null}
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Full Name</label>
-                <input required type="text" name="name" value={formData.name} onChange={handleChange} className="w-full bg-black border border-white/10 px-4 py-3 text-white focus:border-primary outline-none transition-colors" />
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Full Name</label>
+                  <input required type="text" name="name" value={formData.name} onChange={handleChange} className="w-full bg-black border border-white/10 px-4 py-3 text-white focus:border-primary outline-none transition-colors" />
+                </div>
+                <div>
+                  <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Phone Number</label>
+                  <input required type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full bg-black border border-white/10 px-4 py-3 text-white focus:border-primary outline-none transition-colors" />
+                </div>
               </div>
               <div className="grid grid-cols-2 gap-6">
                 <div>
