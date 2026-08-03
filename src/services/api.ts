@@ -33,7 +33,14 @@ export const createSettings = async (settingsData: Partial<Settings>): Promise<S
 };
 
 export const updateSettings = async (id: string, settingsData: Partial<Settings>): Promise<Settings> => {
-  const { data } = await api.put(`/settings/${id}`, settingsData);
+  const payload = { ...settingsData };
+  // Remove MongoDB immutable fields
+  delete (payload as any)._id;
+  delete (payload as any).__v;
+  delete (payload as any).createdAt;
+  delete (payload as any).updatedAt;
+  
+  const { data } = await api.put(`/settings/${id}`, payload);
   return data.data;
 };
 

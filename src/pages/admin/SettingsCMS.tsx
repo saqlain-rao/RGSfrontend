@@ -65,7 +65,14 @@ export default function SettingsCMS() {
       setSuccess('Settings updated successfully!');
       setTimeout(() => setSuccess(''), 3000);
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Failed to update settings');
+      const errData = err.response?.data?.error;
+      if (typeof errData === 'string') {
+        setError(errData);
+      } else if (errData && typeof errData === 'object') {
+        setError(JSON.stringify(errData));
+      } else {
+        setError('Failed to update settings');
+      }
     } finally {
       setSaving(false);
     }
