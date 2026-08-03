@@ -1,6 +1,6 @@
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { LayoutDashboard, Settings, FileText, Briefcase, Image as ImageIcon, Users, MessageSquare } from 'lucide-react';
+import { LayoutDashboard, Settings, FileText, Briefcase, Image as ImageIcon, Users, MessageSquare, Wrench } from 'lucide-react';
 
 export default function AdminLayout() {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ export default function AdminLayout() {
             Projects
           </Link>
           <Link to="/admin/services" className="flex items-center gap-3 px-6 py-3 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors">
-            <Settings size={20} />
+            <Wrench size={20} />
             Services
           </Link>
           <Link to="/admin/blogs" className="flex items-center gap-3 px-6 py-3 text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors">
