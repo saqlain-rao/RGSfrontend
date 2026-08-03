@@ -56,6 +56,11 @@ export default function ProjectsCMS() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    if (!formData.mainImage) {
+      alert('Please upload a feature image before saving the project.');
+      return;
+    }
+    
     try {
       if (editingId) {
         await axios.put(`${API_URL}/projects/${editingId}`, formData);
@@ -64,8 +69,9 @@ export default function ProjectsCMS() {
       }
       setModalOpen(false);
       fetchProjects();
-    } catch (error) {
-      alert('Failed to save project');
+    } catch (error: any) {
+      console.error(error.response?.data || error.message);
+      alert('Failed to save project: ' + (error.response?.data?.error || error.message));
     }
   };
 

@@ -11,7 +11,7 @@ export default function ServicesCMS() {
   const [editingId, setEditingId] = useState<string | null>(null);
   
   const [formData, setFormData] = useState({
-    title: '', description: '', icon: 'Settings', image: '', features: ''
+    title: '', slug: '', shortDescription: '', fullDescription: '', icon: 'Settings', image: '', features: '', isActive: true, order: 0
   });
   
   const [uploading, setUploading] = useState(false);
@@ -19,7 +19,7 @@ export default function ServicesCMS() {
   const fetchServices = async () => {
     try {
       const { data } = await axios.get(`${API_URL}/services`);
-      setServices(data.data);
+      setServices(data.data.sort((a: any, b: any) => a.order - b.order));
     } catch (error) {
       console.error(error);
     } finally {
@@ -30,8 +30,8 @@ export default function ServicesCMS() {
   useEffect(() => { fetchServices(); }, []);
 
   const handleInputChange = (e: any) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const { name, value, type, checked } = e.target;
+    setFormData({ ...formData, [name]: type === 'checkbox' ? checked : value });
   };
 
   const handleFileUpload = async (e: any) => {
@@ -56,6 +56,11 @@ export default function ServicesCMS() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+    if (!formData.image) {
+      alert('Please upload a service image before saving.');
+      return;
+    }
+
     try {
       const payload = {
         ...formData,
@@ -69,8 +74,9 @@ export default function ServicesCMS() {
       }
       setModalOpen(false);
       fetchServices();
-    } catch (error) {
-      alert('Failed to save service');
+    } catch (error: any) {
+      console.error(error.response?.data || error.message);
+      alert('Failed to save service: ' + (error.response?.data?.error || error.message));
     }
   };
 
@@ -78,10 +84,14 @@ export default function ServicesCMS() {
     setEditingId(service._id);
     setFormData({
       title: service.title || '',
-      description: service.description || '',
+      slug: service.slug || '',
+      shortDescription: service.shortDescription || '',
+      fullDescription: service.fullDescription || '',
       icon: service.icon || 'Settings',
       image: service.image || '',
-      features: (service.features || []).join(', ')
+      features: (service.features || []).join(', '),
+      isActive: service.isActive !== undefined ? service.isActive : true,
+      order: service.order || 0
     });
     setModalOpen(true);
   };
@@ -99,7 +109,7 @@ export default function ServicesCMS() {
 
   const openNewModal = () => {
     setEditingId(null);
-    setFormData({ title: '', description: '', icon: 'Settings', image: '', features: '' });
+    setFormData({ title: '', slug: '', shortDescription: '', fullDescription: '', icon: 'Settings', image: '', features: '', isActive: true, order: 0 });
     setModalOpen(true);
   };
 
@@ -123,14 +133,15 @@ export default function ServicesCMS() {
                 <th className="px-6 py-4">Image</th>
                 <th className="px-6 py-4">Title</th>
                 <th className="px-6 py-4">Icon Name</th>
+                <th className="px-6 py-4">Status</th>
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
-                <tr><td colSpan={4} className="text-center py-10">Loading...</td></tr>
+                <tr><td colSpan={5} className="text-center py-10">Loading...</td></tr>
               ) : services.length === 0 ? (
-                <tr><td colSpan={4} className="text-center py-10">No services found.</td></tr>
+                <tr><td colSpan={5} className="text-center py-10">No services found.</td></tr>
               ) : (
                 services.map((service) => (
                   <tr key={service._id} className="border-b border-zinc-200 dark:border-zinc-800 hover:bg-gray-50 dark:hover:bg-zinc-800/30">
@@ -143,6 +154,7 @@ export default function ServicesCMS() {
                     </td>
                     <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">{service.title}</td>
                     <td className="px-6 py-4"><span className="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 rounded-full text-xs font-medium">{service.icon}</span></td>
+                    <td className="px-6 py-4">{service.isActive ? <span className="text-green-500">Active</span> : <span className="text-red-500">Inactive</span>}</td>
                     <td className="px-6 py-4 text-right">
                       <button onClick={() => handleEdit(service)} className="text-blue-500 hover:text-blue-600 p-2"><Edit size={18} /></button>
                       <button onClick={() => handleDelete(service._id)} className="text-red-500 hover:text-red-600 p-2"><Trash2 size={18} /></button>
@@ -158,27 +170,41 @@ export default function ServicesCMS() {
       {/* Modal */}
       {modalOpen && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-zinc-200 dark:border-zinc-800 shadow-2xl">
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto border border-zinc-200 dark:border-zinc-800 shadow-2xl">
             <div className="flex justify-between items-center p-6 border-b border-zinc-200 dark:border-zinc-800 sticky top-0 bg-white dark:bg-zinc-900 z-10">
               <h2 className="text-2xl font-bold dark:text-white">{editingId ? 'Edit Service' : 'New Service'}</h2>
               <button onClick={() => setModalOpen(false)} className="text-gray-500 hover:text-gray-800 dark:hover:text-white"><X size={24} /></button>
             </div>
             
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
-              <div>
-                <label className="block text-sm font-medium mb-2 dark:text-gray-300">Service Title</label>
-                <input required type="text" name="title" value={formData.title} onChange={handleInputChange} className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium mb-2 dark:text-gray-300">Service Title</label>
+                  <input required type="text" name="title" value={formData.title} onChange={handleInputChange} className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2 dark:text-gray-300">URL Slug</label>
+                  <input required type="text" name="slug" value={formData.slug} onChange={handleInputChange} className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2 dark:text-gray-300">Icon Name (Lucide React)</label>
+                  <input required type="text" name="icon" value={formData.icon} onChange={handleInputChange} placeholder="e.g. Settings, Home, HardHat" className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none" />
+                  <p className="text-xs text-gray-500 mt-1">Check lucide.dev for icon names.</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-2 dark:text-gray-300">Display Order</label>
+                  <input required type="number" name="order" value={formData.order} onChange={handleInputChange} className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none" />
+                </div>
               </div>
               
               <div>
-                <label className="block text-sm font-medium mb-2 dark:text-gray-300">Icon Name (Lucide React)</label>
-                <input required type="text" name="icon" value={formData.icon} onChange={handleInputChange} placeholder="e.g. Settings, Home, HardHat" className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none" />
-                <p className="text-xs text-gray-500 mt-1">Check lucide.dev for icon names.</p>
+                <label className="block text-sm font-medium mb-2 dark:text-gray-300">Short Description</label>
+                <textarea rows={2} required name="shortDescription" value={formData.shortDescription} onChange={handleInputChange} className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none"></textarea>
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2 dark:text-gray-300">Service Description</label>
-                <textarea rows={4} required name="description" value={formData.description} onChange={handleInputChange} className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none"></textarea>
+                <label className="block text-sm font-medium mb-2 dark:text-gray-300">Full Description</label>
+                <textarea rows={4} required name="fullDescription" value={formData.fullDescription} onChange={handleInputChange} className="w-full bg-transparent border border-zinc-300 dark:border-zinc-700 rounded-lg px-4 py-3 dark:text-white focus:border-primary outline-none"></textarea>
               </div>
 
               <div>
@@ -197,6 +223,11 @@ export default function ServicesCMS() {
                     <input type="file" className="hidden" accept="image/*" onChange={handleFileUpload} disabled={uploading} />
                   </label>
                 </div>
+              </div>
+
+              <div className="flex items-center gap-3 bg-zinc-50 dark:bg-zinc-800/50 p-4 rounded-lg border border-zinc-200 dark:border-zinc-700">
+                <input type="checkbox" name="isActive" id="isActive" checked={formData.isActive} onChange={handleInputChange} className="w-5 h-5 accent-primary" />
+                <label htmlFor="isActive" className="text-sm font-medium dark:text-white cursor-pointer">Active Service (Show on Website)</label>
               </div>
 
               <div className="flex justify-end gap-4 pt-6 border-t border-zinc-200 dark:border-zinc-800">
