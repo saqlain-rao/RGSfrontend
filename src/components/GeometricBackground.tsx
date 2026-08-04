@@ -56,7 +56,7 @@ export default function GeometricBackground() {
     <div className="absolute inset-0 z-0">
       <Canvas camera={{ position: [0, 0, 15], fov: 60 }}>
         <Suspense fallback={null}>
-          <color attach="background" args={['#050505']} />
+          {/* Removed solid background so the image underneath is visible */}
           
           {/* Lighting */}
           <ambientLight intensity={0.2} />
