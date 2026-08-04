@@ -127,7 +127,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5, duration: 1 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 hidden md:flex flex-col items-center gap-4"
         >
           <span className="text-xs uppercase tracking-widest text-gray-200 dark:text-muted-foreground font-medium [writing-mode:vertical-lr]">Scroll</span>
           <div className="w-[1px] h-12 bg-white/20 dark:bg-foreground/10 overflow-hidden">
