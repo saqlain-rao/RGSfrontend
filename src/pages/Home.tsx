@@ -22,11 +22,20 @@ const fadeUp = {
 
 export default function Home() {
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   
   useEffect(() => { 
     setIsLoaded(true);
+    
+    // Check if device is mobile for performance optimization
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile(); // Initial check
+    window.addEventListener('resize', checkMobile);
+    
     getTestimonials().then(data => setTestimonials(data.filter(t => t.isActive))).catch(console.error);
+    
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   return (
@@ -52,9 +61,12 @@ export default function Home() {
           />
         </motion.div>
 
-        <div className="absolute inset-0 z-0">
-          <GeometricBackground />
-        </div>
+        {/* Render 3D Background only on Desktop for maximum performance */}
+        {!isMobile && (
+          <div className="absolute inset-0 z-0 hidden md:block">
+            <GeometricBackground />
+          </div>
+        )}
         
         {/* Gradient overlays for depth */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black z-10 pointer-events-none" />

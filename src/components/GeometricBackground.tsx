@@ -66,8 +66,8 @@ export default function GeometricBackground() {
           {/* Environment mapping for reflections */}
           <Environment preset="city" />
           
-          {/* Stars for depth */}
-          <Stars radius={100} depth={50} count={5000} factor={4} saturation={0} fade speed={1} />
+          {/* Stars for depth (Count reduced from 5000 to 1500 for better performance on old laptops) */}
+          <Stars radius={100} depth={50} count={1500} factor={4} saturation={0} fade speed={1} />
           
           {/* The floating abstract geometry */}
           <FloatingCubes />
