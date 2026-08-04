@@ -82,7 +82,7 @@ export default function Home() {
             
             <motion.h1 
               variants={fadeUp}
-              className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-[0.85] mb-8"
+              className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter leading-[0.85] mb-8 text-white dark:text-foreground"
             >
               Building The <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-300 to-gray-500">
@@ -93,7 +93,7 @@ export default function Home() {
             
             <motion.p 
               variants={fadeUp}
-              className="text-lg md:text-2xl text-muted-foreground font-light max-w-2xl mb-12 leading-relaxed"
+              className="text-lg md:text-2xl text-gray-100 dark:text-muted-foreground font-light max-w-2xl mb-12 leading-relaxed"
             >
               RGS Constructor delivers uncompromising quality, architectural brilliance, and enterprise-grade infrastructure. We don't just build structures; we engineer legacies.
             </motion.p>
@@ -111,7 +111,7 @@ export default function Home() {
               </Link>
               <Link 
                 to="/contact" 
-                className="group flex items-center gap-3 px-8 py-4 text-sm font-medium tracking-wider uppercase text-foreground hover:text-primary transition-colors"
+                className="group flex items-center gap-3 px-8 py-4 text-sm font-medium tracking-wider uppercase text-white dark:text-foreground hover:text-primary transition-colors"
               >
                 <div className="w-10 h-10 rounded-full border border-border flex items-center justify-center group-hover:border-primary transition-colors">
                   <Globe className="w-4 h-4" />
@@ -129,8 +129,8 @@ export default function Home() {
           transition={{ delay: 1.5, duration: 1 }}
           className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4"
         >
-          <span className="text-xs uppercase tracking-widest text-muted-foreground font-medium [writing-mode:vertical-lr]">Scroll</span>
-          <div className="w-[1px] h-12 bg-foreground/10 overflow-hidden">
+          <span className="text-xs uppercase tracking-widest text-gray-200 dark:text-muted-foreground font-medium [writing-mode:vertical-lr]">Scroll</span>
+          <div className="w-[1px] h-12 bg-white/20 dark:bg-foreground/10 overflow-hidden">
             <motion.div 
               animate={{ y: ['-100%', '100%'] }}
               transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
