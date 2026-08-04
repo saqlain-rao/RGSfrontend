@@ -27,7 +27,7 @@ export default async function handler(req, res) {
     const emailHtml = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
         <!-- Header with Logo -->
-        <div style="background-color: #000; padding: 20px; text-align: center;">
+        <div style="background-color: #f8f9fa; padding: 20px; text-align: center; border-bottom: 2px solid #e0e0e0;">
           <img src="https://rg-sfrontend.vercel.app/logo.png" alt="RGS CONSTRUCTOR" style="max-height: 60px; width: auto; object-fit: contain;" />
         </div>
         
