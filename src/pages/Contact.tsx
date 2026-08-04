@@ -73,26 +73,26 @@ export default function Contact() {
             ) : null}
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Full Name</label>
-                  <input required type="text" name="name" value={formData.name} onChange={handleChange} className="w-full bg-white dark:bg-zinc-950 border border-gray-400 dark:border-zinc-700 px-4 py-3 text-black dark:text-white focus:border-primary outline-none transition-colors shadow-sm" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Phone Number</label>
-                  <input required type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full bg-white dark:bg-zinc-950 border border-gray-400 dark:border-zinc-700 px-4 py-3 text-black dark:text-white focus:border-primary outline-none transition-colors shadow-sm" />
-                </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Full Name</label>
+                <input required type="text" name="name" value={formData.name} onChange={handleChange} className="w-full bg-white dark:bg-zinc-950 border border-gray-400 dark:border-zinc-700 px-4 py-3 text-black dark:text-white focus:border-primary outline-none transition-colors shadow-sm" />
               </div>
-              <div className="grid grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Email Address</label>
-                  <input required type="email" name="email" value={formData.email} onChange={handleChange} className="w-full bg-white dark:bg-zinc-950 border border-gray-400 dark:border-zinc-700 px-4 py-3 text-black dark:text-white focus:border-primary outline-none transition-colors shadow-sm" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Subject</label>
-                  <input required type="text" name="subject" value={formData.subject} onChange={handleChange} className="w-full bg-white dark:bg-zinc-950 border border-gray-400 dark:border-zinc-700 px-4 py-3 text-black dark:text-white focus:border-primary outline-none transition-colors shadow-sm" />
-                </div>
+              
+              <div className="space-y-2">
+                <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Email Address</label>
+                <input required type="email" name="email" value={formData.email} onChange={handleChange} className="w-full bg-white dark:bg-zinc-950 border border-gray-400 dark:border-zinc-700 px-4 py-3 text-black dark:text-white focus:border-primary outline-none transition-colors shadow-sm" />
               </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Phone Number</label>
+                <input required type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full bg-white dark:bg-zinc-950 border border-gray-400 dark:border-zinc-700 px-4 py-3 text-black dark:text-white focus:border-primary outline-none transition-colors shadow-sm" />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Subject</label>
+                <input required type="text" name="subject" value={formData.subject} onChange={handleChange} className="w-full bg-white dark:bg-zinc-950 border border-gray-400 dark:border-zinc-700 px-4 py-3 text-black dark:text-white focus:border-primary outline-none transition-colors shadow-sm" />
+              </div>
+
               <div className="space-y-2">
                 <label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Project Details</label>
                 <textarea required name="message" value={formData.message} onChange={handleChange} rows={5} className="w-full bg-white dark:bg-zinc-950 border border-gray-400 dark:border-zinc-700 px-4 py-3 text-black dark:text-white focus:border-primary outline-none transition-colors shadow-sm"></textarea>
