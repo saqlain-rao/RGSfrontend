@@ -37,8 +37,24 @@ export default function Home() {
       />
       
       {/* 1. ULTRA PREMIUM HERO SECTION */}
-      <section className="relative h-screen w-full flex items-center justify-center pt-20">
-        <GeometricBackground />
+      <section className="relative h-screen w-full flex items-center justify-center pt-20 overflow-hidden">
+        
+        {/* Animated Image Background */}
+        <motion.div
+          animate={{ scale: [1, 1.1, 1] }}
+          transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+          className="absolute inset-0 z-0"
+        >
+          <img 
+            src="/images/hero-bg.png" 
+            alt="RGS Infrastructure" 
+            className="w-full h-full object-cover opacity-60"
+          />
+        </motion.div>
+
+        <div className="absolute inset-0 z-0">
+          <GeometricBackground />
+        </div>
         
         {/* Gradient overlays for depth */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black z-10 pointer-events-none" />
