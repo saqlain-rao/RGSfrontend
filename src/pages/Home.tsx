@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Building2, HardHat, Ruler, ChevronRight, Globe, ShieldCheck, Star, Quote } from 'lucide-react';
-import Building3D from '../components/Building3D';
+import GeometricBackground from '../components/GeometricBackground';
 import { getTestimonials } from '../services/api';
 import { Testimonial } from '../types';
 import SEO from '../components/SEO';
@@ -38,7 +38,7 @@ export default function Home() {
       
       {/* 1. ULTRA PREMIUM HERO SECTION */}
       <section className="relative h-screen w-full flex items-center justify-center pt-20">
-        <Building3D />
+        <GeometricBackground />
         
         {/* Gradient overlays for depth */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black z-10 pointer-events-none" />
