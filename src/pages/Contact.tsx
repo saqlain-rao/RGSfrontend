@@ -17,27 +17,26 @@ export default function Contact() {
     e.preventDefault();
     setStatus('loading');
     try {
-      // 1. Save to database via backend API
-      await submitContact(formData);
-      
-      // 2. Send email via Vercel Serverless Function
-      try {
-        await fetch('/api/contact', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            subject: formData.subject,
-            message: formData.message
-          })
-        });
-      } catch (err) {
-        console.error("Failed to send email via Serverless Function", err);
-      }
+      // Send email via Vercel Serverless Function (DO THIS FIRST so it doesn't wait for Render DB)
+      const emailPromise = fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          subject: formData.subject,
+          message: formData.message
+        })
+      }).catch(err => console.error("Failed to send email", err));
+
+      // Save to database via backend API (Might be slow if Render is asleep)
+      const dbPromise = submitContact(formData).catch(err => console.error("Failed to save to DB", err));
+
+      // Wait for both to finish (or fail) without blocking each other
+      await Promise.all([emailPromise, dbPromise]);
 
       setStatus('success');
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
