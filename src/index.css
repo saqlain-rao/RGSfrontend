@@ -82,3 +82,15 @@ html.lenis {
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
 }
+
+/* Extreme Performance CSS Animations for Old Mobiles */
+@keyframes kenBurns {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.animate-ken-burns {
+  animation: kenBurns 25s infinite linear;
+  will-change: transform;
+}

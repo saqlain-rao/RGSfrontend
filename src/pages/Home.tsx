@@ -48,18 +48,14 @@ export default function Home() {
       {/* 1. ULTRA PREMIUM HERO SECTION */}
       <section className="relative h-screen w-full flex items-center justify-center pt-20 overflow-hidden">
         
-        {/* Animated Image Background */}
-        <motion.div
-          animate={{ scale: [1, 1.1, 1] }}
-          transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
-          className="absolute inset-0 z-0"
-        >
+        {/* Animated Image Background (Pure CSS for Extreme Performance) */}
+        <div className="absolute inset-0 z-0 animate-ken-burns">
           <img 
             src="/images/hero-bg.png" 
             alt="RGS Infrastructure" 
             className="w-full h-full object-cover opacity-60"
           />
-        </motion.div>
+        </div>
 
         {/* Render 3D Background only on Desktop for maximum performance */}
         {!isMobile && (
