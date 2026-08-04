@@ -19,7 +19,7 @@ export default function Blogs() {
   }, []);
 
   return (
-    <div className="bg-black min-h-screen text-white pt-24 pb-32">
+    <div className="bg-background min-h-screen text-foreground pt-24 pb-32">
       <SEO 
         title="Company News & Insights" 
         description="Stay updated with our latest enterprise projects, industry insights, and architectural innovations." 
@@ -49,7 +49,7 @@ export default function Blogs() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-gray-400 text-lg md:text-xl max-w-2xl font-light"
+            className="text-muted-foreground text-lg md:text-xl max-w-2xl font-light"
           >
             Stay updated with our latest enterprise projects, industry insights, and architectural innovations.
           </motion.p>
@@ -57,9 +57,9 @@ export default function Blogs() {
 
         {/* Blog Grid */}
         {loading ? (
-          <div className="text-center text-gray-500 py-20">Loading articles...</div>
+          <div className="text-center text-muted-foreground py-20">Loading articles...</div>
         ) : blogs.length === 0 ? (
-          <div className="text-center text-gray-500 py-20">No articles published yet.</div>
+          <div className="text-center text-muted-foreground py-20">No articles published yet.</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {blogs.map((blog, i) => (
@@ -68,11 +68,11 @@ export default function Blogs() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className="group bg-zinc-950 border border-white/5 hover:border-primary/30 transition-all duration-500 overflow-hidden flex flex-col h-full"
+                className="group bg-muted border border-border/50 hover:border-primary/30 transition-all duration-500 overflow-hidden flex flex-col h-full"
               >
                 {/* Image */}
                 <div className="relative h-64 overflow-hidden">
-                  <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10" />
+                  <div className="absolute inset-0 bg-background/20 group-hover:bg-transparent transition-colors z-10" />
                   <img 
                     src={blog.image} 
                     alt={blog.title} 
@@ -89,7 +89,7 @@ export default function Blogs() {
 
                 {/* Content */}
                 <div className="p-8 flex flex-col flex-1">
-                  <div className="flex items-center gap-4 text-xs text-gray-500 uppercase tracking-widest mb-4">
+                  <div className="flex items-center gap-4 text-xs text-muted-foreground uppercase tracking-widest mb-4">
                     <span className="flex items-center gap-1"><Clock size={12} /> {new Date(blog.createdAt).toLocaleDateString()}</span>
                     <span className="flex items-center gap-1"><User size={12} /> {blog.author}</span>
                   </div>
@@ -98,7 +98,7 @@ export default function Blogs() {
                     {blog.title}
                   </h2>
                   
-                  <p className="text-gray-400 mb-8 line-clamp-3 leading-relaxed flex-1">
+                  <p className="text-muted-foreground mb-8 line-clamp-3 leading-relaxed flex-1">
                     {blog.excerpt}
                   </p>
                   

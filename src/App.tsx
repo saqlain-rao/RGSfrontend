@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import Lenis from '@studio-freight/lenis';
+import { HelmetProvider } from 'react-helmet-async';
+import { ThemeProvider } from './components/ThemeProvider';
 
 // Layouts
 import MainLayout from './layouts/MainLayout';
@@ -103,56 +105,60 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<Home />} />
-          <Route path="about" element={<About />} />
-          <Route path="services" element={<Services />} />
-          <Route path="projects" element={<Projects />} />
-          <Route path="portfolio" element={<Portfolio />} />
-          <Route path="process" element={<Process />} />
-          <Route path="why-us" element={<WhyUs />} />
-          <Route path="team" element={<Team />} />
-          <Route path="careers" element={<Careers />} />
-          <Route path="testimonials" element={<Testimonials />} />
-          <Route path="gallery" element={<Gallery />} />
-          <Route path="blog" element={<Blogs />} />
-          <Route path="blog/:slug" element={<BlogDetail />} />
-          <Route path="faq" element={<FAQ />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="privacy" element={<Privacy />} />
-          <Route path="terms" element={<Terms />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
-        
-        {/* Admin Routes */}
-        <Route path="/admin/login" element={<Login />} />
-        <Route path="/admin" element={
-          <ProtectedRoute>
-            <AdminLayout />
-          </ProtectedRoute>
-        }>
-          <Route index element={<Dashboard />} />
-          <Route path="projects" element={<ProjectsCMS />} />
-          <Route path="services" element={<ServicesCMS />} />
-          <Route path="blogs" element={<BlogsCMS />} />
-          <Route path="gallery" element={<GalleryCMS />} />
-          <Route path="testimonials" element={<TestimonialsCMS />} />
-          <Route path="careers" element={<CareersCMS />} />
-          <Route path="team" element={<TeamCMS />} />
-          <Route path="faqs" element={<FaqsCMS />} />
-          <Route path="messages" element={<MessagesCMS />} />
-          <Route path="home" element={<HomeCMS />} />
-          <Route path="seo" element={<SeoCMS />} />
-          <Route path="media" element={<MediaCMS />} />
-          <Route path="settings" element={<SettingsCMS />} />
-          <Route path="users" element={<UsersCMS />} />
-          <Route path="roles" element={<RolesCMS />} />
-          <Route path="analytics" element={<AnalyticsCMS />} />
-        </Route>
-      </Routes>
-    </Router>
+    <HelmetProvider>
+      <ThemeProvider defaultTheme="dark" storageKey="rgs-theme">
+        <Router>
+          <Routes>
+            <Route path="/" element={<MainLayout />}>
+              <Route index element={<Home />} />
+              <Route path="about" element={<About />} />
+              <Route path="services" element={<Services />} />
+              <Route path="projects" element={<Projects />} />
+              <Route path="portfolio" element={<Portfolio />} />
+              <Route path="process" element={<Process />} />
+              <Route path="why-us" element={<WhyUs />} />
+              <Route path="team" element={<Team />} />
+              <Route path="careers" element={<Careers />} />
+              <Route path="testimonials" element={<Testimonials />} />
+              <Route path="gallery" element={<Gallery />} />
+              <Route path="blog" element={<Blogs />} />
+              <Route path="blog/:slug" element={<BlogDetail />} />
+              <Route path="faq" element={<FAQ />} />
+              <Route path="contact" element={<Contact />} />
+              <Route path="privacy" element={<Privacy />} />
+              <Route path="terms" element={<Terms />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+            
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<Login />} />
+            <Route path="/admin" element={
+              <ProtectedRoute>
+                <AdminLayout />
+              </ProtectedRoute>
+            }>
+              <Route index element={<Dashboard />} />
+              <Route path="projects" element={<ProjectsCMS />} />
+              <Route path="services" element={<ServicesCMS />} />
+              <Route path="blogs" element={<BlogsCMS />} />
+              <Route path="gallery" element={<GalleryCMS />} />
+              <Route path="testimonials" element={<TestimonialsCMS />} />
+              <Route path="careers" element={<CareersCMS />} />
+              <Route path="team" element={<TeamCMS />} />
+              <Route path="faqs" element={<FaqsCMS />} />
+              <Route path="messages" element={<MessagesCMS />} />
+              <Route path="home" element={<HomeCMS />} />
+              <Route path="seo" element={<SeoCMS />} />
+              <Route path="media" element={<MediaCMS />} />
+              <Route path="settings" element={<SettingsCMS />} />
+              <Route path="users" element={<UsersCMS />} />
+              <Route path="roles" element={<RolesCMS />} />
+              <Route path="analytics" element={<AnalyticsCMS />} />
+            </Route>
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </HelmetProvider>
   );
 }
 

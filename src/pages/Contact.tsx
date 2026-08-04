@@ -53,54 +53,54 @@ export default function Contact() {
   };
 
   return (
-    <div className="bg-black min-h-screen text-white pt-24">
+    <div className="bg-background min-h-screen text-foreground pt-24">
       <section className="py-24 container mx-auto px-6">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-20">
           <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter mb-6">Global Reach</h1>
-          <p className="text-gray-400 max-w-2xl mx-auto">Initiate your next landmark project with RGS Constructor.</p>
+          <p className="text-muted-foreground max-w-2xl mx-auto">Initiate your next landmark project with RGS Constructor.</p>
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-16">
-          <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="bg-zinc-950 p-10 border border-white/5 relative">
+          <motion.div initial={{ opacity: 0, x: -30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="bg-muted p-10 border border-border/50 relative">
             <h2 className="text-2xl font-bold uppercase tracking-widest mb-10">Send a Message</h2>
             
             {status === 'success' ? (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 bg-zinc-950 z-10 flex flex-col items-center justify-center text-center p-10">
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="absolute inset-0 bg-muted z-10 flex flex-col items-center justify-center text-center p-10">
                 <CheckCircle2 className="w-16 h-16 text-green-500 mb-6" />
                 <h3 className="text-2xl font-bold uppercase mb-2">Message Sent!</h3>
-                <p className="text-gray-400">Our enterprise team will contact you shortly regarding your inquiry.</p>
+                <p className="text-muted-foreground">Our enterprise team will contact you shortly regarding your inquiry.</p>
               </motion.div>
             ) : null}
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Full Name</label>
-                  <input required type="text" name="name" value={formData.name} onChange={handleChange} className="w-full bg-black border border-white/10 px-4 py-3 text-white focus:border-primary outline-none transition-colors" />
+                  <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">Full Name</label>
+                  <input required type="text" name="name" value={formData.name} onChange={handleChange} className="w-full bg-background border border-border px-4 py-3 text-foreground focus:border-primary outline-none transition-colors" />
                 </div>
                 <div>
-                  <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Phone Number</label>
-                  <input required type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full bg-black border border-white/10 px-4 py-3 text-white focus:border-primary outline-none transition-colors" />
+                  <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">Phone Number</label>
+                  <input required type="tel" name="phone" value={formData.phone} onChange={handleChange} className="w-full bg-background border border-border px-4 py-3 text-foreground focus:border-primary outline-none transition-colors" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Email Address</label>
-                  <input required type="email" name="email" value={formData.email} onChange={handleChange} className="w-full bg-black border border-white/10 px-4 py-3 text-white focus:border-primary outline-none transition-colors" />
+                  <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">Email Address</label>
+                  <input required type="email" name="email" value={formData.email} onChange={handleChange} className="w-full bg-background border border-border px-4 py-3 text-foreground focus:border-primary outline-none transition-colors" />
                 </div>
                 <div>
-                  <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Subject</label>
-                  <input required type="text" name="subject" value={formData.subject} onChange={handleChange} className="w-full bg-black border border-white/10 px-4 py-3 text-white focus:border-primary outline-none transition-colors" />
+                  <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">Subject</label>
+                  <input required type="text" name="subject" value={formData.subject} onChange={handleChange} className="w-full bg-background border border-border px-4 py-3 text-foreground focus:border-primary outline-none transition-colors" />
                 </div>
               </div>
               <div>
-                <label className="block text-xs uppercase tracking-widest text-gray-500 mb-2">Project Details</label>
-                <textarea required name="message" value={formData.message} onChange={handleChange} rows={5} className="w-full bg-black border border-white/10 px-4 py-3 text-white focus:border-primary outline-none transition-colors"></textarea>
+                <label className="block text-xs uppercase tracking-widest text-muted-foreground mb-2">Project Details</label>
+                <textarea required name="message" value={formData.message} onChange={handleChange} rows={5} className="w-full bg-background border border-border px-4 py-3 text-foreground focus:border-primary outline-none transition-colors"></textarea>
               </div>
               
               {status === 'error' && <p className="text-red-500 text-sm">Failed to send message. Please try again.</p>}
               
-              <button disabled={status === 'loading'} type="submit" className="bg-primary text-white font-bold uppercase tracking-widest px-8 py-4 w-full hover:bg-white hover:text-black transition-colors disabled:opacity-50">
+              <button disabled={status === 'loading'} type="submit" className="bg-primary text-foreground font-bold uppercase tracking-widest px-8 py-4 w-full hover:bg-white hover:text-black transition-colors disabled:opacity-50">
                 {status === 'loading' ? 'Sending...' : 'Submit Inquiry'}
               </button>
             </form>
@@ -108,24 +108,24 @@ export default function Contact() {
 
           <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }} className="space-y-10">
             <div className="flex gap-6">
-              <div className="w-16 h-16 bg-zinc-950 border border-white/5 flex items-center justify-center shrink-0"><MapPin className="text-primary" /></div>
+              <div className="w-16 h-16 bg-muted border border-border/50 flex items-center justify-center shrink-0"><MapPin className="text-primary" /></div>
               <div>
                 <h3 className="text-lg font-bold uppercase tracking-widest mb-2">Headquarters</h3>
-                <p className="text-gray-400 leading-relaxed">123 Corporate Blvd, Elite Business Park<br/>Metro City, NY 10001, USA</p>
+                <p className="text-muted-foreground leading-relaxed">123 Corporate Blvd, Elite Business Park<br/>Metro City, NY 10001, USA</p>
               </div>
             </div>
             <div className="flex gap-6">
-              <div className="w-16 h-16 bg-zinc-950 border border-white/5 flex items-center justify-center shrink-0"><Phone className="text-primary" /></div>
+              <div className="w-16 h-16 bg-muted border border-border/50 flex items-center justify-center shrink-0"><Phone className="text-primary" /></div>
               <div>
                 <h3 className="text-lg font-bold uppercase tracking-widest mb-2">Contact Numbers</h3>
-                <p className="text-gray-400 leading-relaxed">+1 (800) 123-4567<br/>+1 (800) 123-4568</p>
+                <p className="text-muted-foreground leading-relaxed">+1 (800) 123-4567<br/>+1 (800) 123-4568</p>
               </div>
             </div>
             <div className="flex gap-6">
-              <div className="w-16 h-16 bg-zinc-950 border border-white/5 flex items-center justify-center shrink-0"><Mail className="text-primary" /></div>
+              <div className="w-16 h-16 bg-muted border border-border/50 flex items-center justify-center shrink-0"><Mail className="text-primary" /></div>
               <div>
                 <h3 className="text-lg font-bold uppercase tracking-widest mb-2">Email Directory</h3>
-                <p className="text-gray-400 leading-relaxed">projects@rgsconstructor.com<br/>careers@rgsconstructor.com</p>
+                <p className="text-muted-foreground leading-relaxed">projects@rgsconstructor.com<br/>careers@rgsconstructor.com</p>
               </div>
             </div>
           </motion.div>

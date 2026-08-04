@@ -16,15 +16,15 @@ export default function Services() {
   const { data: services, isLoading, error } = useServices();
 
   return (
-    <div className="bg-black min-h-screen text-white pt-24">
-      <section className="py-32 bg-zinc-950 text-center border-b border-white/10 relative overflow-hidden">
+    <div className="bg-background min-h-screen text-foreground pt-24">
+      <section className="py-32 bg-muted text-center border-b border-border relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(220,38,38,0.1)_0%,rgba(0,0,0,0)_70%)]"></div>
         <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-5xl md:text-7xl font-black uppercase tracking-tighter relative z-10">Our Expertise</motion.h1>
       </section>
       
       <section className="py-24 container mx-auto px-6">
         {isLoading ? (
-          <div className="text-center text-gray-500 uppercase tracking-widest font-bold">Loading Services...</div>
+          <div className="text-center text-muted-foreground uppercase tracking-widest font-bold">Loading Services...</div>
         ) : error ? (
           <div className="text-center text-red-500 uppercase tracking-widest font-bold">Failed to load services.</div>
         ) : (
@@ -39,7 +39,7 @@ export default function Services() {
                   whileInView={{ opacity: 1, y: 0 }} 
                   viewport={{ once: true }} 
                   transition={{ delay: (i % 3) * 0.1 }} 
-                  className="group relative bg-zinc-950 border border-white/5 p-10 hover:bg-zinc-900 transition-all cursor-pointer overflow-hidden"
+                  className="group relative bg-muted border border-border/50 p-10 hover:bg-card transition-all cursor-pointer overflow-hidden"
                 >
                   <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-bl-full -mr-12 -mt-12 transition-transform group-hover:scale-150 duration-500"></div>
                   
@@ -49,19 +49,19 @@ export default function Services() {
                   </div>
 
                   <h3 className="text-2xl font-bold uppercase mb-4">{srv.title}</h3>
-                  <p className="text-gray-400 text-sm leading-relaxed mb-8 h-20 overflow-hidden">{srv.description}</p>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-8 h-20 overflow-hidden">{srv.description}</p>
                   
                   {srv.features && srv.features.length > 0 && (
                     <ul className="mb-8 space-y-2">
                       {srv.features.slice(0, 3).map((feature, idx) => (
-                        <li key={idx} className="text-xs text-gray-500 flex items-center gap-2">
+                        <li key={idx} className="text-xs text-muted-foreground flex items-center gap-2">
                            <div className="w-1 h-1 bg-primary rounded-full"></div> {feature}
                         </li>
                       ))}
                     </ul>
                   )}
 
-                  <div className="flex items-center gap-2 text-white font-bold uppercase text-xs tracking-widest group-hover:text-primary transition-colors">
+                  <div className="flex items-center gap-2 text-foreground font-bold uppercase text-xs tracking-widest group-hover:text-primary transition-colors">
                     Explore Service <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
                   </div>
                 </motion.div>

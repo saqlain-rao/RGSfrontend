@@ -39,7 +39,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="bg-black min-h-screen text-white overflow-hidden selection:bg-primary selection:text-white">
+    <div className="bg-background min-h-screen text-foreground overflow-hidden selection:bg-primary selection:text-foreground">
       <SEO 
         title="Engineering Excellence" 
         description="RGS Constructor delivers uncompromising quality, architectural brilliance, and enterprise-grade infrastructure." 
@@ -93,7 +93,7 @@ export default function Home() {
             
             <motion.p 
               variants={fadeUp}
-              className="text-lg md:text-2xl text-gray-400 font-light max-w-2xl mb-12 leading-relaxed"
+              className="text-lg md:text-2xl text-muted-foreground font-light max-w-2xl mb-12 leading-relaxed"
             >
               RGS Constructor delivers uncompromising quality, architectural brilliance, and enterprise-grade infrastructure. We don't just build structures; we engineer legacies.
             </motion.p>
@@ -111,9 +111,9 @@ export default function Home() {
               </Link>
               <Link 
                 to="/contact" 
-                className="group flex items-center gap-3 px-8 py-4 text-sm font-medium tracking-wider uppercase text-white hover:text-primary transition-colors"
+                className="group flex items-center gap-3 px-8 py-4 text-sm font-medium tracking-wider uppercase text-foreground hover:text-primary transition-colors"
               >
-                <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-primary transition-colors">
+                <div className="w-10 h-10 rounded-full border border-border flex items-center justify-center group-hover:border-primary transition-colors">
                   <Globe className="w-4 h-4" />
                 </div>
                 Global Reach
@@ -129,8 +129,8 @@ export default function Home() {
           transition={{ delay: 1.5, duration: 1 }}
           className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4"
         >
-          <span className="text-xs uppercase tracking-widest text-gray-500 font-medium [writing-mode:vertical-lr]">Scroll</span>
-          <div className="w-[1px] h-12 bg-white/10 overflow-hidden">
+          <span className="text-xs uppercase tracking-widest text-muted-foreground font-medium [writing-mode:vertical-lr]">Scroll</span>
+          <div className="w-[1px] h-12 bg-foreground/10 overflow-hidden">
             <motion.div 
               animate={{ y: ['-100%', '100%'] }}
               transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
@@ -141,7 +141,7 @@ export default function Home() {
       </section>
 
       {/* 2. OVERVIEW & STATISTICS */}
-      <section className="relative py-32 bg-black border-t border-white/5">
+      <section className="relative py-32 bg-background border-t border-border/50">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             
@@ -152,7 +152,7 @@ export default function Home() {
               <motion.h2 variants={fadeUp} className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-8">
                 Mastering the Art of <br/> <span className="text-primary">Heavy Construction</span>
               </motion.h2>
-              <motion.p variants={fadeUp} className="text-gray-400 text-lg leading-relaxed mb-8">
+              <motion.p variants={fadeUp} className="text-muted-foreground text-lg leading-relaxed mb-8">
                 With over two decades of enterprise-level experience, RGS Constructor has spearheaded the development of industrial complexes, luxury corporate towers, and expansive infrastructure projects. Our precision-driven methodology ensures every project is a masterclass in durability and modern engineering.
               </motion.p>
               
@@ -164,8 +164,8 @@ export default function Home() {
                   { value: '50M+', label: 'Sq. Ft. Built' },
                 ].map((stat, i) => (
                   <motion.div key={i} variants={fadeUp} className="border-l border-primary/30 pl-6">
-                    <div className="text-4xl font-black text-white mb-2">{stat.value}</div>
-                    <div className="text-sm text-gray-500 uppercase tracking-widest">{stat.label}</div>
+                    <div className="text-4xl font-black text-foreground mb-2">{stat.value}</div>
+                    <div className="text-sm text-muted-foreground uppercase tracking-widest">{stat.label}</div>
                   </motion.div>
                 ))}
               </div>
@@ -185,10 +185,10 @@ export default function Home() {
                 className="w-full h-full object-cover grayscale-[20%] contrast-125"
               />
               {/* Floating Element */}
-              <div className="absolute -bottom-10 -left-10 bg-zinc-900 border border-white/10 p-8 shadow-2xl backdrop-blur-xl">
+              <div className="absolute -bottom-10 -left-10 bg-card border border-border p-8 shadow-2xl backdrop-blur-xl">
                 <ShieldCheck className="w-12 h-12 text-primary mb-4" />
                 <div className="text-xl font-bold mb-2">ISO 9001:2015</div>
-                <div className="text-sm text-gray-400">Certified Quality Management</div>
+                <div className="text-sm text-muted-foreground">Certified Quality Management</div>
               </div>
             </motion.div>
           </div>
@@ -196,7 +196,7 @@ export default function Home() {
       </section>
 
       {/* 3. PREMIUM SERVICES GRID */}
-      <section className="py-32 bg-zinc-950 relative overflow-hidden">
+      <section className="py-32 bg-muted relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[1px] bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
         
         <div className="container mx-auto px-6">
@@ -226,11 +226,11 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className="group bg-black border border-white/5 p-10 hover:bg-zinc-900 transition-all duration-500 hover:border-primary/30"
+                className="group bg-background border border-border/50 p-10 hover:bg-card transition-all duration-500 hover:border-primary/30"
               >
                 <service.icon className="w-12 h-12 text-zinc-700 group-hover:text-primary transition-colors duration-500 mb-8" />
-                <h3 className="text-2xl font-bold mb-4 uppercase tracking-wide group-hover:text-white">{service.title}</h3>
-                <p className="text-gray-500 leading-relaxed mb-8">{service.desc}</p>
+                <h3 className="text-2xl font-bold mb-4 uppercase tracking-wide group-hover:text-foreground">{service.title}</h3>
+                <p className="text-muted-foreground leading-relaxed mb-8">{service.desc}</p>
                 <Link to="/services" className="inline-flex items-center gap-2 text-sm text-primary font-bold tracking-widest uppercase opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500">
                   Read More <ArrowRight className="w-4 h-4" />
                 </Link>
@@ -241,7 +241,7 @@ export default function Home() {
       </section>
 
       {/* 4. FEATURED PROJECTS - LUXURY MASONRY/GRID */}
-      <section className="py-32 bg-black border-t border-white/5">
+      <section className="py-32 bg-background border-t border-border/50">
         <div className="container mx-auto px-6">
           <div className="text-center mb-20">
             <div className="flex items-center justify-center gap-4 mb-4">
@@ -258,12 +258,12 @@ export default function Home() {
               initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               className="group relative h-[600px] overflow-hidden cursor-pointer"
             >
-              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors z-10 duration-500" />
+              <div className="absolute inset-0 bg-background/40 group-hover:bg-background/20 transition-colors z-10 duration-500" />
               <img src="https://images.unsplash.com/photo-1574523363321-70067645f7f3?auto=format&fit=crop&q=80" alt="Corporate Tower" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
               <div className="absolute bottom-0 left-0 p-10 z-20 w-full bg-gradient-to-t from-black via-black/80 to-transparent">
                 <span className="text-primary text-sm font-bold tracking-widest uppercase mb-2 block">Commercial</span>
-                <h3 className="text-3xl font-bold text-white mb-2 uppercase">Nexus Corporate Tower</h3>
-                <p className="text-gray-400">A 45-story commercial masterpiece.</p>
+                <h3 className="text-3xl font-bold text-foreground mb-2 uppercase">Nexus Corporate Tower</h3>
+                <p className="text-muted-foreground">A 45-story commercial masterpiece.</p>
               </div>
             </motion.div>
 
@@ -273,11 +273,11 @@ export default function Home() {
                 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
                 className="group relative h-full overflow-hidden cursor-pointer"
               >
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors z-10 duration-500" />
+                <div className="absolute inset-0 bg-background/40 group-hover:bg-background/20 transition-colors z-10 duration-500" />
                 <img src="https://images.unsplash.com/photo-1504307651254-35680f356f27?auto=format&fit=crop&q=80" alt="Industrial Complex" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute bottom-0 left-0 p-8 z-20 w-full bg-gradient-to-t from-black via-black/60 to-transparent">
                   <span className="text-primary text-sm font-bold tracking-widest uppercase mb-1 block">Industrial</span>
-                  <h3 className="text-2xl font-bold text-white uppercase">Apex Manufacturing Plant</h3>
+                  <h3 className="text-2xl font-bold text-foreground uppercase">Apex Manufacturing Plant</h3>
                 </div>
               </motion.div>
 
@@ -286,18 +286,18 @@ export default function Home() {
                 initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
                 className="group relative h-full overflow-hidden cursor-pointer"
               >
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors z-10 duration-500" />
+                <div className="absolute inset-0 bg-background/40 group-hover:bg-background/20 transition-colors z-10 duration-500" />
                 <img src="https://images.unsplash.com/photo-1541888081622-c9a92ab35c91?auto=format&fit=crop&q=80" alt="Infrastructure" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute bottom-0 left-0 p-8 z-20 w-full bg-gradient-to-t from-black via-black/60 to-transparent">
                   <span className="text-primary text-sm font-bold tracking-widest uppercase mb-1 block">Infrastructure</span>
-                  <h3 className="text-2xl font-bold text-white uppercase">Grand Metro Terminal</h3>
+                  <h3 className="text-2xl font-bold text-foreground uppercase">Grand Metro Terminal</h3>
                 </div>
               </motion.div>
             </div>
           </div>
           
           <div className="mt-16 text-center">
-            <Link to="/projects" className="inline-flex items-center gap-2 border border-white/20 px-8 py-4 uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-colors duration-300">
+            <Link to="/projects" className="inline-flex items-center gap-2 border border-border px-8 py-4 uppercase tracking-widest text-sm hover:bg-white hover:text-black transition-colors duration-300">
               View All Projects
             </Link>
           </div>
@@ -306,7 +306,7 @@ export default function Home() {
 
       {/* 4.5 TESTIMONIALS SECTION */}
       {testimonials.length > 0 && (
-        <section className="py-32 bg-zinc-950 border-t border-white/5 relative overflow-hidden">
+        <section className="py-32 bg-muted border-t border-border/50 relative overflow-hidden">
           <div className="absolute -left-40 top-20 w-96 h-96 bg-primary/10 blur-[100px] rounded-full pointer-events-none" />
           
           <div className="container mx-auto px-6 relative z-10">
@@ -328,20 +328,20 @@ export default function Home() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="min-w-[350px] md:min-w-[450px] bg-black border border-white/5 p-10 snap-start hover:border-primary/30 transition-colors"
+                  className="min-w-[350px] md:min-w-[450px] bg-background border border-border/50 p-10 snap-start hover:border-primary/30 transition-colors"
                 >
                   <Quote className="w-10 h-10 text-primary/40 mb-6" />
-                  <p className="text-gray-300 leading-relaxed mb-8 text-lg">"{t.content}"</p>
+                  <p className="text-foreground/80 leading-relaxed mb-8 text-lg">"{t.content}"</p>
                   
                   <div className="flex items-center justify-between mt-auto">
                     <div className="flex items-center gap-4">
                       {t.image ? (
                         <img src={t.image} alt={t.clientName} className="w-12 h-12 rounded-full object-cover grayscale" />
                       ) : (
-                        <div className="w-12 h-12 rounded-full bg-zinc-800 flex items-center justify-center text-zinc-500 font-bold uppercase">{t.clientName.charAt(0)}</div>
+                        <div className="w-12 h-12 rounded-full bg-accent flex items-center justify-center text-zinc-500 font-bold uppercase">{t.clientName.charAt(0)}</div>
                       )}
                       <div>
-                        <h4 className="text-white font-bold uppercase text-sm">{t.clientName}</h4>
+                        <h4 className="text-foreground font-bold uppercase text-sm">{t.clientName}</h4>
                         <span className="text-primary text-xs uppercase tracking-widest">{t.role}{t.company ? ` @ ${t.company}` : ''}</span>
                       </div>
                     </div>
@@ -364,20 +364,20 @@ export default function Home() {
         <div className="container mx-auto px-6 relative z-10 text-center">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="text-5xl md:text-7xl font-black uppercase tracking-tight text-white mb-8"
+            className="text-5xl md:text-7xl font-black uppercase tracking-tight text-foreground mb-8"
           >
             Ready to Build <br/> The Future?
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
-            className="text-white/80 text-xl max-w-2xl mx-auto mb-12"
+            className="text-foreground/80 text-xl max-w-2xl mx-auto mb-12"
           >
             Partner with RGS Constructor for your next enterprise project. Experience engineering excellence and flawless execution.
           </motion.p>
           <motion.div 
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }}
           >
-            <Link to="/contact" className="inline-block bg-black text-white font-bold uppercase tracking-widest px-10 py-5 hover:bg-zinc-900 hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+            <Link to="/contact" className="inline-block bg-background text-foreground font-bold uppercase tracking-widest px-10 py-5 hover:bg-card hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
               Initiate Project
             </Link>
           </motion.div>
