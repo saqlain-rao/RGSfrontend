@@ -5,7 +5,7 @@
 @layer base {
   :root {
     /* Light Grey Theme */
-    --background: 210 20% 98%; /* Light Grey */
+    --background: 220 14% 92%; /* Darker Light Grey */
     --foreground: 222 47% 11%; /* Deep Charcoal */
     --card: 0 0% 100%; /* Pure White */
     --card-foreground: 222 47% 11%;
@@ -13,16 +13,16 @@
     --popover-foreground: 222 47% 11%;
     --primary: 353 73% 38%; /* Luxury Crimson Red */
     --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 96%;
+    --secondary: 220 14% 88%;
     --secondary-foreground: 222 47% 11%;
-    --muted: 210 40% 96%;
+    --muted: 220 14% 88%;
     --muted-foreground: 215 16% 47%;
     --accent: 353 73% 38%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 214 32% 91%;
-    --input: 214 32% 91%;
+    --border: 220 14% 80%; /* Darker border for button visibility */
+    --input: 220 14% 80%;
     --ring: 353 73% 38%;
     --radius: 0.5rem;
   }
