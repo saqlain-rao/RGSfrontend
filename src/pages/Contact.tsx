@@ -20,26 +20,23 @@ export default function Contact() {
       // 1. Save to database via backend API
       await submitContact(formData);
       
-      // 2. Send email directly from the browser using Web3Forms
+      // 2. Send email via Vercel Serverless Function
       try {
-        await fetch('https://api.web3forms.com/submit', {
+        await fetch('/api/contact', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json'
           },
           body: JSON.stringify({
-            access_key: '1bab50be-b9e1-496b-97cc-7a6120d084ef',
             name: formData.name,
             email: formData.email,
             phone: formData.phone,
             subject: formData.subject,
-            message: formData.message,
-            from_name: 'RGS Constructor System'
+            message: formData.message
           })
         });
       } catch (err) {
-        console.error("Failed to send email via Web3Forms", err);
+        console.error("Failed to send email via Serverless Function", err);
       }
 
       setStatus('success');
