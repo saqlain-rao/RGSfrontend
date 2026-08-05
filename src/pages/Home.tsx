@@ -51,7 +51,7 @@ export default function Home() {
         {/* Animated Image Background (Pure CSS for Extreme Performance) */}
         <div className="absolute inset-0 z-0 animate-ken-burns">
           <img 
-            src="/images/hero-bg.png" 
+            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2000" 
             alt="RGS Infrastructure" 
             className="w-full h-full object-cover opacity-60"
           />
